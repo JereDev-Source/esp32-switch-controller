@@ -1,0 +1,36 @@
+menu "Switch Controller"
+
+config SWITCH_CONTROLLER_BLE_HID
+    bool "Use BLE HID transport"
+    default y
+    help
+        Select the BLE HID transport instead of the Bluetooth Classic HIDP
+        transport. This is the experimental transport for Nintendo Switch 2.
+
+config SWITCH_CONTROLLER_BTSTACK
+    bool "Use vendored BTstack Classic HID"
+    default n
+    depends on BT_ENABLED
+    depends on IDF_TARGET_ESP32
+    help
+        Use the vendored BTstack Classic HID device implementation. The
+        original Bluedroid HIDP implementation remains available when this
+        option is disabled.
+
+config BTSTACK_INTERNAL_BT
+    bool
+    default y if SWITCH_CONTROLLER_BTSTACK
+
+config BTSTACK_EXTERNAL_UART_BT
+    bool
+    default n
+
+config BTSTACK_AUDIO
+    bool
+    default n
+
+config BTSTACK_HCI_DUMP_STDOUT
+    bool
+    default n
+
+endmenu
